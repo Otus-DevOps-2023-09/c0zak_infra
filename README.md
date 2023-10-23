@@ -26,12 +26,12 @@ ssh -J bastion_IP someinternalhost
 Добавить в него такие секции:
 
 Host bastion
-        Hostname bastion_ip
+        Hostname bastion_IP
         User appuser
         IdentityFile ~/.ssh/appuser
 
 Host someinternalhost
-        Hostname someinternalhost_ip
+        Hostname someinternalhost_IP
         ProxyJump bastion
         User appuser
         IdentityFile ~/.ssh/appuser
