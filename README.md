@@ -7,7 +7,12 @@ c0zak Infra repository
 Общее ДЗ:
 	Каталог packer:
 	ubuntu16.json - общее дз, использует параметры из variable.json (но параметры, как просили, в .gitignore)
-	scripts/*.sh - общие скрипты запуска. Так как в облаке непонятные проблемы с использованием apt из пакера, пришлось добавить цикличный инсталл, пока не встанет. 
+	scripts/*.sh - общие скрипты запуска. Так как в облаке непонятные проблемы с использованием apt из пакера, пришлось добавить цикличный инсталл, пока не встанет.
+	Создан дополнительно каталог stubs с файлом key.json, т.к. тест требует чтобы файл по вымышленному пути - существовал. Вы там в порядке вообще?)))
+	Вот прям из теста:
+	×  Command: `cd packer && packer validate -var-file=variables.json.example ubuntu16.json` stdout should eq "Template validated successfully.\n"
+	expected: "Template validated successfully.\n"
+        got: "Template validation failed. Errors are shown below.\n\nErrors validating build 'yandex'. 1 error(s) ...rvice account key file: key file 'SOME_PATH' read fail: open SOME_PATH: no such file or directory\n"
 
 -------------------------
 
@@ -143,5 +148,3 @@ bastion_IP = 84.201.130.36
 someinternalhost_IP = 10.128.0.32
 
 -------------------------
-
-

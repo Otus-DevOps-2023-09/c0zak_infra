@@ -1,6 +1,6 @@
 {
-	"folder_id_var": "SOME_ID",
-	"source_id_var": "SOME_SOURCE",
-	"key_file_var": "SOME_PATH",
-	"subnet_id_var": "SOME_SUBNET"
+        "folder_id_var": "1111",
+        "source_id_var": "1111",
+        "key_file_var": "stubs/key.json",
+        "subnet_id_var": "1111"
 }
