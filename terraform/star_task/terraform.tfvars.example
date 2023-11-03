@@ -1,0 +1,8 @@
+cloud_id         = "1234"
+folder_id        = "1234"
+zone             = "ru-central1-a"
+image_id         = "1234"
+subnet_id        = "1234"
+keyfile_path     = "stubs/key.json"
+public_key_path  = "stubs/appuser.pub"
+private_key_path = "stubs/appuser"
