@@ -28,8 +28,15 @@ def main():
           output = subprocess.check_output(["terraform", "output", "-json"]).decode()
           output_dict = json.loads(output)
 
-          data["app"]["hosts"].append(output_dict["external_ip_address_app"]["value"])
-          data["db"]["hosts"].append(output_dict["external_ip_address_db"]["value"])
+          if "external_ip_address_app" in output_dict:
+             data["app"]["hosts"].append(output_dict["external_ip_address_app"]["value"])
+          else:
+             data["app"]["hosts"].append("1.2.3.4")
+
+          if "external_ip_address_db" in output_dict:
+             data["db"]["hosts"].append(output_dict["external_ip_address_db"]["value"])
+          else:
+             data["db"]["hosts"].append("4.3.2.1")
       else:
           data["app"]["hosts"].append("1.2.3.4")
           data["db"]["hosts"].append("4.3.2.1")
