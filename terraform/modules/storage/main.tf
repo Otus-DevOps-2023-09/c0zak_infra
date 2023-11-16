@@ -1,11 +1,11 @@
-terraform {
-  required_providers {
-    yandex = {
-      source = "yandex-cloud/yandex"
-    }
-  }
-  required_version = ">= 0.13"
-}
+# terraform {
+#   required_providers {
+#     yandex = {
+#       source = "yandex-cloud/yandex"
+#     }
+#   }
+#   required_version = ">= 0.13"
+# }
 
 resource "yandex_iam_service_account_static_access_key" "SA-ID" {
   service_account_id = var.service_account_id
