@@ -22,11 +22,11 @@ def main():
            }
        }
 
-   try:
-        os.chdir("../terraform/stage")
-        output = subprocess.check_output(["terraform", "output", "-json"]).decode()
-        output_dict = json.loads(output)
 
+   os.chdir("../terraform/stage")
+   output = subprocess.check_output(["terraform", "output", "-json"]).decode()
+   output_dict = json.loads(output)
+   try:
         data["app"]["hosts"].append(output_dict["external_ip_address_app"]["value"])
         data["db"]["hosts"].append(output_dict["external_ip_address_db"]["value"])
 
