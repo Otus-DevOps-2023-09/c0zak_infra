@@ -5,8 +5,8 @@
             "service_account_key_file": "{{user `key_file_var`}}",
             "folder_id": "{{user `folder_id_var`}}",
             "source_image_family": "{{user `source_id_var`}}",
-            "image_name": "reddit-db-base-{{timestamp}}",
-            "image_family": "reddit-db-base",
+            "image_name": "reddit-app-base-{{timestamp}}",
+            "image_family": "reddit-app-base",
             "ssh_username": "ubuntu",
             "platform_id": "standard-v1",
             "subnet_id": "{{user `subnet_id_var`}}",
@@ -16,7 +16,9 @@
     "provisioners": [
 	    {
             "type": "ansible",
-            "playbook_file": "ansible/packer_db.yml"
+            "playbook_file": "ansible/packer_app.yml",
+            "user": "ubuntu",
+            "use_proxy": false
         }
     ]
 }
