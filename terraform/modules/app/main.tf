@@ -2,6 +2,7 @@
 #   required_providers {
 #     yandex = {
 #       source = "yandex-cloud/yandex"
+#       version = "~> 0"
 #     }
 #   }
 #   required_version = ">= 0.13"
@@ -39,7 +40,8 @@ resource "null_resource" "deploy" {
 resource "yandex_compute_instance" "app" {
   name = "reddit-app"
   labels = {
-    tags = "app"
+    tag  = "app",
+    type = var.instance_type
   }
   metadata = {
     ssh-keys = "ubuntu:${file(var.public_key_path)}"

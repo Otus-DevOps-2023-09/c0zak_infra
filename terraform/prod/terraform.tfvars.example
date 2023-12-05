@@ -1,13 +1,10 @@
 cloud_id           = "123"
 folder_id          = "123"
 zone               = "ru-central1-a"
-image_id           = "123"
 subnet_id          = "123"
 keyfile_path       = "../stubs/key.json"
 public_key_path    = "../stubs/appuser.pub"
 private_key_path   = "../stubs/appuser"
 app_disk_image     = "123"
 db_disk_image      = "123"
-service_account_id = "123"
-reddit-bucket      = "reddit-bucket"
 need_deploy        = false
