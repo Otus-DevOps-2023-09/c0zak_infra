@@ -1,0 +1,13 @@
+plugin: community.general.yc_compute
+auth_kind: "serviceaccountfile"
+service_account_file: "~/yandex-cloud/sa.json"
+folders:
+  - QWERTY
+hostnames:
+  - public_ip
+filters:
+  - labels.type == 'stage'
+keyed_groups:
+  - key: labels.tag
+    prefix: ''
+    separator: ''
