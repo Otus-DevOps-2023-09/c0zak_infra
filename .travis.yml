@@ -1,0 +1,25 @@
+language: python
+
+os:
+ - linux
+
+before_install:
+ - pip install packer.py
+ - curl -L "$(curl -s https://api.github.com/repos/terraform-linters/tflint/releases/latest | grep -o -E "https://.+?_linux_amd64.zip")" > tflint.zip
+ - unzip tflint.zip
+ - chmod +x tflint
+ - sudo mv tflint /usr/local/bin/
+ - cd terraform/prod
+ - terraform init
+ - cd ../stage
+ - terraform init
+ - pip install ansible-lint
+
+script:
+ - python play-travis/packer_validate_app.py
+ - python play-travis/packer_validate_db.py
+ - python play-travis/terraform_validate_prod.py
+ - python play-travis/terraform_validate_stage.py
+ - python play-travis/tflint_prod.py
+ - python play-travis/tflint_stage.py
+ - python play-travis/ansible_lint.py
