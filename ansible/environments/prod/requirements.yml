@@ -2,7 +2,7 @@
 - src: jdauphant.nginx
   version: v2.21.1
 
-- src: file:///~/OTUS/db_repo
+- src: https://github.com/c0zak/OTUS_TEST.git
   scm: git
-  version: master
+  version: main
   name: db
