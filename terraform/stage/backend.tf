@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    endpoint  = "storage.yandexcloud.net"
+    endpoint = "storage.yandexcloud.net"
     bucket   = "reddit-bucket"
     region   = "ru-central1"
     key      = "terraform.tfstate"

@@ -6,3 +6,6 @@ packer/variables.json
 .terraform/
 *.lock.hcl
 *.retry
+ansible/yc_compute.yaml
+jdauphant.nginx
+yc_compute.yml
