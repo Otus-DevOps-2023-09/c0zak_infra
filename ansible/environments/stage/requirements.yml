@@ -1,3 +1,8 @@
 ---
 - src: jdauphant.nginx
   version: v2.21.1
+
+- src: file:///~/OTUS/db_repo
+  scm: git
+  version: master
+  name: db
