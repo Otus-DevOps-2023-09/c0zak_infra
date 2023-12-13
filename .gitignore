@@ -9,3 +9,12 @@ packer/variables.json
 ansible/yc_compute.yaml
 jdauphant.nginx
 yc_compute.yml
+.vagrant/
+*.log
+*.pyc
+.molecule
+.cache
+.pytest_cache
+Pipfile*
+venv
+get-pip.py

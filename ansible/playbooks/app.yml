@@ -4,7 +4,7 @@
   become: true
 
   vars:
-   db_host: "{{ hostvars[groups['db'][0]]['inventory_hostname'] }}"
+   db_host: "{{ hostvars[groups['db'][0]]['inventory_hostname'] if groups['db'] is defined else hostvars[inventory_hostname]['db_host'] }}"
 
   roles:
     - app

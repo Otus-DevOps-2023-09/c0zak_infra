@@ -2,14 +2,16 @@
 - name: Install Mongo
   hosts: all
   become: true
-  tasks:
+  roles:
+    - db
+  # tasks:
 
-    - name: Install Mongo
-      apt:
-        name: mongodb
-        state: present
+  #   - name: Install Mongo
+  #     apt:
+  #       name: mongodb
+  #       state: present
 
-    - name: Enable Mongo
-      systemd:
-        name: mongodb
-        enabled: yes
+  #   - name: Enable Mongo
+  #     systemd:
+  #       name: mongodb
+  #       enabled: yes
