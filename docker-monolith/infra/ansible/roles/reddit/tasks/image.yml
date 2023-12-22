@@ -1,0 +1,13 @@
+---
+- name: Pull image
+  docker_image:
+    name: ublin/otus-reddit:1.0
+    source: pull
+
+- name: Run container
+  docker_container:
+    name: reddit
+    image: ublin/otus-reddit:1.0
+    published_ports:
+      - "9292:9292"
+    state: started

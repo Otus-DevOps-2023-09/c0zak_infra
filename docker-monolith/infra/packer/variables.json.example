@@ -1,0 +1,6 @@
+{
+        "folder_id_var": "1111",
+        "source_id_var": "1111",
+        "key_file_var": "./stubs/key.json",
+        "subnet_id_var": "1111"
+}

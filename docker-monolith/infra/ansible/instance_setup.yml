@@ -1,0 +1,7 @@
+---
+- name: Instance setup
+  hosts: all
+  become: true
+  roles:
+    - docker
+    - reddit

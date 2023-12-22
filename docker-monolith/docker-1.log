@@ -1,0 +1,36 @@
+REPOSITORY                                               TAG                                           IMAGE ID       CREATED          SIZE
+c0zak/ubuntu-tmp-file                                    latest                                        5c59ffbce3a5   38 seconds ago   77.8MB
+test2                                                    latest                                        a9c78a6d13d6   6 hours ago      197MB
+repohub.ekassir.com/ekassir.ips.openbank.favaccsrv       1.0.0.97418-231220                            b36372118e98   7 hours ago      197MB
+repohub.ekassir.com/ekassir.ips.openbank.favaccsrv       1.0.0.97344-231219                            9a81b2ef7220   28 hours ago     163MB
+test                                                     latest                                        b582ede0a980   30 hours ago     258MB
+repohub.ekassir.com:443/ekassir.ips.openbank.favaccsrv   1.0.0.97013-231214                            b2fd9aa7403a   6 days ago       307MB
+<none>                                                   <none>                                        ac862f344421   6 days ago       304MB
+<none>                                                   <none>                                        5878ff8f2778   6 days ago       304MB
+repohub.ekassir.com:443/ekassir.ips.openbank.favaccsrv   1.0.0.96930-231213                            ed4c3076393e   7 days ago       212MB
+repohub.ekassir.com:443/ekassir.ips.openbank.favaccsrv   1.0.0.96858-231212                            1a67329e8736   8 days ago       694MB
+ubuntu                                                   latest                                        174c8c134b2a   8 days ago       77.8MB
+hw_docker                                                latest                                        d36b9a96d4e2   9 days ago       467MB
+10.0.21.14:8082/ekassir.ips.members                      1.2.202.2328992172-c2b-2.15.3-231016.92172    77aaa1e0affe   2 months ago     140MB
+ekassir/ekassir.ips.members                              1.2.202.2328992172-c2b-2.15.3-231016.92172    77aaa1e0affe   2 months ago     140MB
+ekassir/ekassir.ips.merchantsvc                          1.17.101.2328592035-c2b_2.15.3-231012.92035   61b87b269f04   2 months ago     160MB
+10.0.21.14:8082/ekassir.ips.merchantsvc                  1.17.101.2328592035-c2b_2.15.3-231012.92035   61b87b269f04   2 months ago     160MB
+
+------
+$ docker inspect <u_container_id>
+$ docker inspect <u_image_id>
+
+На основе вывода команд объясните чем отличается контейнер от образа.
+
+Ну ок))
+Вывод команд конечно даёт некоторое представление, но по сути отличия фундаментальны.
+
+Образ:
+    1) Это шаблон, на основе которого создаётся контейнер.
+    2) Этот шаблон - константа, он неизменяем.
+
+Контейнер:
+    1) Это среда исполнения, созданная на основе шаблона.
+    2) Контейнер может меняться. Можно создать файлик, и вообще что угодно сделать.
+
+По сути, любой контейнер это: образ + слой контейнера + параметры запуска контейнера.

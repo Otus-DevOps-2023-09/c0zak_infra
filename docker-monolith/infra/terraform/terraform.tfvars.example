@@ -1,0 +1,9 @@
+cloud_id           = "123"
+folder_id          = "123"
+zone               = "ru-central1-a"
+subnet_id          = "123"
+keyfile_path       = "../stubs/key.json"
+public_key_path    = "../stubs/appuser.pub"
+private_key_path   = "../stubs/appuser"
+instances_count    = 3
+docker_reddit_image = "123"
