@@ -1,6 +1,35 @@
 # c0zak_infra
 c0zak Infra repository
 
+ДЗ 13
+
+Всё потыкано, собрано. Пришлось править базовые Dockerfile, пререквизиты сервисов.. Всё очень устарело господа) Я уж молчу про линтер, по итогу забил его собирать, завёл через враппер
+
+Доп.задание:
+
+Такой листинг:
+        docker run -d --network=reddit --network-alias=post_db_changed --network-alias=comment_db_changed mongo:latest
+        docker run -d --network=reddit -e POST_DATABASE_HOST="post_db_changed" -e POST_DATABASE="post_changed" --network-alias=post_changed  ublin/post:1.0
+        docker run -d --network=reddit -e COMMENT_DATABASE_HOST="comment_db_changed" -e COMMENT_DATABASE="comment_changed" --network-alias=comment_changed  ublin/comment:1.0
+        docker run -d --network=reddit -e POST_SERVICE_HOST="post_changed" -e COMMENT_SERVICE_HOST="comment_changed" -p 9292:9292 ublin/ui:1.0
+
+Доп. задание 2:
+        Все оптимизации описаны в соответствующих Dockerfile
+        Итог такой:
+                REPOSITORY      TAG       IMAGE ID       CREATED          SIZE
+                ublin/post      2.0       8959be1e0681   4 minutes ago    241MB
+                ublin/comment   2.0       907f248bc95d   15 minutes ago   229MB
+                ublin/ui        2.0       d175d9c30e4f   17 minutes ago   232MB
+
+                ublin/post      1.0       31069c382a89   4 hours ago      921MB
+                ublin/ui        1.0       4e7e876ea861   4 hours ago      884MB
+                ublin/comment   1.0       6429d4c2d74e   4 hours ago      882MB
+
+                mongo           latest    2e123a0ccb4b   8 days ago       757MB
+
+        В целом неплохо, примерно в 3.5 раза меньше
+-------------------------
+
 ДЗ 12
 
 Результаты работы
