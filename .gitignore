@@ -10,7 +10,6 @@ ansible/yc_compute.yaml
 jdauphant.nginx
 yc_compute.yml
 .vagrant/
-*.log
 *.pyc
 .molecule
 .cache
@@ -18,3 +17,4 @@ yc_compute.yml
 Pipfile*
 venv
 get-pip.py
+variables.json
