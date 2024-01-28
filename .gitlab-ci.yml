@@ -1,5 +1,5 @@
 # image: ruby:2.4.2
-image: alpine:latest
+image: docker:latest
 
 stages:
   - build
@@ -8,12 +8,16 @@ stages:
   - stage
   - production
 
-# variables:
+variables:
+  DOCKER_DRIVER: overlay2
+  CONTAINER_IMAGE: reddit
 #   DATABASE_URL: 'mongodb://mongo/user_ports'
 
+services:
+  - docker:dind
+
 before_script:
-  - apk add --no-cache docker openrc
-  - rc-service docker check || rc-service docker start
+  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
 #  - cd reddit
 #  - bundle install
 
