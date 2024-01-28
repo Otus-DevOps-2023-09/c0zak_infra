@@ -11,7 +11,7 @@ variables:
   DATABASE_URL: 'mongodb://mongo/user_ports'
 
 before_script:
-  - apt-get update -y && apt-get install -y docker.io
+  - apt-get update -y && apt-get install -y docker
   - cd reddit
   - bundle install
 
@@ -61,7 +61,7 @@ deploy_review:
  stage: review
  script:
     - docker load < /tmp/reddit.tar
-    - docker run -d -p 80:80 reddit
+    - docker run -d -p 9292:9292 reddit
  environment:
     name: branch/$CI_COMMIT_REF_NAME
     url: http://$CI_ENVIRONMENT_SLUG.example.com
