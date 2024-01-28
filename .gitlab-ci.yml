@@ -20,7 +20,7 @@ before_script:
 build_job:
  stage: build
  script:
-    - cd ../docker-monolith
+    - cd docker-monolith
     - docker build -t reddit .
     - docker save reddit > reddit.tar
     - mv reddit.tar /tmp
