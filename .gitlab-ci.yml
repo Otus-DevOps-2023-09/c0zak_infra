@@ -10,6 +10,7 @@ stages:
 
 variables:
   DOCKER_DRIVER: overlay2
+  DOCKER_HOST: unix:///var/run/docker.sock
   CONTAINER_IMAGE: reddit
 #   DATABASE_URL: 'mongodb://mongo/user_ports'
 
