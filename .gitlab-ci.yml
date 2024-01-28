@@ -29,8 +29,8 @@ test_integration_job:
   script:
     - echo 'Testing 2'
 
-deploy_job:
-  stage: review
+deploy_dev_job:
+  stage: deploy
   script:
     - echo 'Deploy'
   environment:
