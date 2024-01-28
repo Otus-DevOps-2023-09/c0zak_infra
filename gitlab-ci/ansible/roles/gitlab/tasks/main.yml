@@ -1,0 +1,36 @@
+---
+- name: Create dir /srv/gitlab/config
+  file:
+    path: /srv/gitlab/config
+    state: directory
+
+- name: Create dir /srv/gitlab/data
+  file:
+    path: /srv/gitlab/data
+    state: directory
+
+- name: Create dir /srv/gitlab/logs
+  file:
+    path: /srv/gitlab/logs
+    state: directory
+
+- name: Put compose
+  template:
+    src: ../roles/gitlab/files/docker-compose.yml.j2
+    dest: /srv/gitlab/docker-compose.yml
+
+- name: Deploy GitLab
+  shell:
+    cmd: docker compose up -d
+    chdir: /srv/gitlab
+
+- name: Copy checker script
+  copy:
+    src: ../roles/gitlab/files/check_gitlab.sh
+    dest: /srv/gitlab/check_gitlab.sh
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Wait GitLab ready
+  shell: /srv/gitlab/check_gitlab.sh

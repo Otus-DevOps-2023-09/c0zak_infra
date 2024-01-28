@@ -1,0 +1,6 @@
+---
+- name: Install GitLab
+  hosts: all
+  become: true
+  roles:
+    - { role: ../roles/gitlab }
