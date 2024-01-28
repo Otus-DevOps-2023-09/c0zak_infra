@@ -41,7 +41,7 @@ resource "null_resource" "ansible_provisioner" {
 
 resource "yandex_compute_disk" "boot-disk" {
   name     = "gitlab-disk"
-  type     = "network-hdd"
+  type     = "network-ssd"
   zone     = "ru-central1-a"
   size     = "50"
   image_id = var.image_id
@@ -58,8 +58,8 @@ resource "yandex_compute_instance" "gitlab-vm" {
   }
 
   resources {
-    cores  = 2
-    memory = 4
+    cores  = 6
+    memory = 6
   }
   boot_disk {
     disk_id = yandex_compute_disk.boot-disk.id
