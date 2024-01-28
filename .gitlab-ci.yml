@@ -13,6 +13,7 @@ stages:
 
 before_script:
   - apk add --no-cache docker openrc
+  - if ! rc-service docker status &>/dev/null; then rc-service docker start; fi
 #  - cd reddit
 #  - bundle install
 
@@ -21,7 +22,6 @@ build_job:
  stage: build
  script:
     - cd docker-monolith
-    - rc-service docker start
     - docker build -t reddit .
     - docker save reddit > reddit.tar
     - mv reddit.tar /tmp
