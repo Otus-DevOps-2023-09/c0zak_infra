@@ -52,6 +52,7 @@ branch review:
 
 deploy_review:
  stage: review
+ image: docker:latest
  services:
    - docker:dind
  script:
