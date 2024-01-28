@@ -15,9 +15,15 @@ before_script:
   - bundle install
 
 build_job:
-  stage: build
-  script:
-    - echo 'Building'
+ stage: build
+ script:
+    - cd docker-monolith
+    - docker build -t reddit .
+    - docker save reddit > reddit.tar
+    - mv reddit.tar /tmp
+ artifacts:
+    paths:
+      - /tmp/reddit.tar
 
 test_unit_job:
   stage: test
@@ -38,6 +44,32 @@ deploy_dev_job:
   environment:
     name: dev
     url: http://dev.example.com
+
+branch review:
+  stage: review
+  script: echo "Deploy to $CI_ENVIRONMENT_SLUG"
+  environment:
+    name: branch/$CI_COMMIT_REF_NAME
+    url: http://$CI_ENVIRONMENT_SLUG.example.com
+  only:
+    - branches
+  except:
+    - master
+
+deploy_review:
+ stage: review
+ script:
+    - docker load < /tmp/reddit.tar
+    - docker run -d -p 80:80 reddit
+ environment:
+    name: branch/$CI_COMMIT_REF_NAME
+    url: http://$CI_ENVIRONMENT_SLUG.example.com
+ dependencies:
+    - build_job
+ only:
+    - branches
+ except:
+    - master
 
 staging:
   stage: stage
