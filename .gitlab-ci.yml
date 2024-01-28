@@ -52,6 +52,8 @@ branch review:
 
 deploy_review:
  stage: review
+ services:
+   - docker:dind
  script:
     - docker run -d -p 9292:9292 ublin/otus-reddit:1.0
  environment:
