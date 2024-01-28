@@ -21,6 +21,7 @@ build_job:
  stage: build
  script:
     - cd docker-monolith
+    - rc-service docker start
     - docker build -t reddit .
     - docker save reddit > reddit.tar
     - mv reddit.tar /tmp
