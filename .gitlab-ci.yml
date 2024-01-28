@@ -11,6 +11,7 @@ variables:
   DATABASE_URL: 'mongodb://mongo/user_ports'
 
 before_script:
+  - apt-get update -y && apt-get install -y docker.io
   - cd reddit
   - bundle install
 
