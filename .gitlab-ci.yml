@@ -1,5 +1,5 @@
 # image: ruby:2.4.2
-image: gitlab/gitlab-runner:latest
+image: alpine:latest
 
 stages:
   - build
@@ -12,7 +12,9 @@ stages:
 #   DATABASE_URL: 'mongodb://mongo/user_ports'
 
 before_script:
- - cd reddit
+  - apk add --no-cache docker openrc
+  - rc-service docker start
+#  - cd reddit
 #  - bundle install
 
 
