@@ -111,8 +111,8 @@ variables:
  DOCKER_DRIVER: overlay2
  CONTAINER_IMAGE: reddit
 
-before_script:
- - docker login $CI_REGISTRY
+# before_script:
+#  - docker login $CI_REGISTRY
 
 build:
  stage: build
