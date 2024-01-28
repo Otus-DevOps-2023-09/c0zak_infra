@@ -1,99 +1,122 @@
-image: ruby:2.4.2
+# image: ruby:2.4.2
+
+# stages:
+#   - build
+#   - test
+#   - review
+#   - stage
+#   - production
+
+# variables:
+#   DATABASE_URL: 'mongodb://mongo/user_ports'
+
+# before_script:
+#   - apt-get update -y && apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+#   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+#   - add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+#   - apt-get update -y && apt-get install -y docker-ce
+#   - cd reddit
+#   - bundle install
+
+# build_job:
+#  stage: build
+#  script:
+#     - docker info
+#     - cd ../docker-monolith
+#     - docker build -t reddit .
+#     - docker save reddit > reddit.tar
+#     - mv reddit.tar /tmp
+#  artifacts:
+#     paths:
+#       - /tmp/reddit.tar
+
+# test_unit_job:
+#   stage: test
+#   services:
+#     - mongo:latest
+#   script:
+#     - ruby simpletest.rb
+
+# test_integration_job:
+#   stage: test
+#   script:
+#     - echo 'Testing 2'
+
+# deploy_dev_job:
+#   stage: review
+#   script:
+#     - echo 'Deploy'
+#   environment:
+#     name: dev
+#     url: http://dev.example.com
+
+# branch review:
+#   stage: review
+#   script: echo "Deploy to $CI_ENVIRONMENT_SLUG"
+#   environment:
+#     name: branch/$CI_COMMIT_REF_NAME
+#     url: http://$CI_ENVIRONMENT_SLUG.example.com
+#   only:
+#     - branches
+#   except:
+#     - master
+
+# deploy_review:
+#  stage: review
+#  script:
+#     - docker load < /tmp/reddit.tar
+#     - docker run -d -p 9292:9292 reddit
+#  environment:
+#     name: branch/$CI_COMMIT_REF_NAME
+#     url: http://$CI_ENVIRONMENT_SLUG.example.com
+#  dependencies:
+#     - build_job
+#  only:
+#     - branches
+#  except:
+#     - master
+
+# staging:
+#   stage: stage
+#   when: manual
+#   only:
+#     - /^\d+\.\d+\.\d+/
+#   script:
+#     - echo "Deploy"
+#   environment:
+#     name: beta
+#     url: http://beta.example.com
+
+# production:
+#   stage: production
+#   when: manual
+#   only:
+#     - /^\d+\.\d+\.\d+/
+#   script:
+#     - echo 'Deploy'
+#   environment:
+#     name: production
+#     url: http://example.com
+
+
+image: docker:latest
+
+services:
+ - docker:dind
 
 stages:
-  - build
-  - test
-  - review
-  - stage
-  - production
+ - build
 
 variables:
-  DATABASE_URL: 'mongodb://mongo/user_ports'
+ DOCKER_DRIVER: overlay2
+ CONTAINER_IMAGE: reddit
 
 before_script:
-  - apt-get update -y && apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-  - add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-  - apt-get update -y && apt-get install -y docker-ce
-  - cd reddit
-  - bundle install
+ - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
 
-build_job:
+build:
  stage: build
  script:
-    - docker info
-    - cd ../docker-monolith
-    - docker build -t reddit .
-    - docker save reddit > reddit.tar
-    - mv reddit.tar /tmp
- artifacts:
-    paths:
-      - /tmp/reddit.tar
-
-test_unit_job:
-  stage: test
-  services:
-    - mongo:latest
-  script:
-    - ruby simpletest.rb
-
-test_integration_job:
-  stage: test
-  script:
-    - echo 'Testing 2'
-
-deploy_dev_job:
-  stage: review
-  script:
-    - echo 'Deploy'
-  environment:
-    name: dev
-    url: http://dev.example.com
-
-branch review:
-  stage: review
-  script: echo "Deploy to $CI_ENVIRONMENT_SLUG"
-  environment:
-    name: branch/$CI_COMMIT_REF_NAME
-    url: http://$CI_ENVIRONMENT_SLUG.example.com
-  only:
-    - branches
-  except:
-    - master
-
-deploy_review:
- stage: review
- script:
-    - docker load < /tmp/reddit.tar
-    - docker run -d -p 9292:9292 reddit
- environment:
-    name: branch/$CI_COMMIT_REF_NAME
-    url: http://$CI_ENVIRONMENT_SLUG.example.com
- dependencies:
-    - build_job
- only:
-    - branches
- except:
-    - master
-
-staging:
-  stage: stage
-  when: manual
-  only:
-    - /^\d+\.\d+\.\d+/
-  script:
-    - echo "Deploy"
-  environment:
-    name: beta
-    url: http://beta.example.com
-
-production:
-  stage: production
-  when: manual
-  only:
-    - /^\d+\.\d+\.\d+/
-  script:
-    - echo 'Deploy'
-  environment:
-    name: production
-    url: http://example.com
+    - docker build -t $CONTAINER_IMAGE ./docker-monolith
+    - docker tag $CONTAINER_IMAGE $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
