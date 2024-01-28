@@ -19,3 +19,4 @@ venv
 get-pip.py
 variables.json
 .env
+.vscode

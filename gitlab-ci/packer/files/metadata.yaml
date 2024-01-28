@@ -1,0 +1,9 @@
+#cloud-config
+
+users:
+  - name: yc-user
+    groups: sudo
+    shell: /bin/bash
+    sudo: 'ALL=(ALL) NOPASSWD:ALL'
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDQIUyM2VYxTjP/kL9OdGNNmu/3oIXf45lbPORdf2Ni84NnWnuxzjzt1NI8ASvr1Yl4pfCdDarDq7xWj9mptSNtIayUlxLejB/wCqJrEXsA+Sp0DilxDWa+nzwZEbEI+/r0ZBx4rprQ/fjSbggPLAKHZpNHMAlsTZiShDDFsCW7Mk5OseRX/MDuZGRX0EPaw19OvbxoNfLBUcqHW16y2ujjvu/6iXSSz9wSB3ZgtXjaXNX1PmdutZMVNHPMxzNyrWIwpxnvsAIqh9QB6Zu7wDmYzDeTOQjMqfcNFPbUym43DowozoW67rFZ1EYJOEqb8NwSIhjU3GM/mRqnDznkIpSooWoROzoAnXTe2oZuJI4+Y09xW7zid/fPDT4b9sNxTlAVHeqwoelKG94TmSVkCO8sPA5RMZK3P3JZLXAfoQ8DoFG0S5POjVNCoiB5iGiNL7QqC51BsCBtS3X3FO0U0icBr6IhZ83vgeVLIJe/Ot+L4e2v7JejRfDmCSFCK1e7RBM= motchenkovp@corp.ekassir.com@N0092
