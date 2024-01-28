@@ -10,14 +10,16 @@ stages:
 variables:
   DATABASE_URL: 'mongodb://mongo/user_ports'
 
-before_script:
-  - cd reddit
-  - bundle install
+# before_script:
+#   - cd reddit
+#   - bundle install
 
 build_job:
   stage: build
   script:
     - echo 'Building'
+    - cd reddit
+    - bundle install
 
 test_unit_job:
   stage: test
