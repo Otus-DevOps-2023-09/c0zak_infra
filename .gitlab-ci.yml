@@ -10,9 +10,9 @@ stages:
 variables:
   DATABASE_URL: 'mongodb://mongo/user_ports'
 
-# before_script:
-#   - cd reddit
-#   - bundle install
+before_script:
+  - cd reddit
+  - bundle install
 
 build_job:
   stage: build
@@ -54,7 +54,6 @@ branch review:
 
 deploy_review:
  stage: review
- image: docker:latest
  services:
    - docker:dind
  script:
