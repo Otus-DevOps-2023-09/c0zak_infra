@@ -1,0 +1,96 @@
+version: '3.3'
+services:
+  post_db:
+    image: mongo:${MONGO_VERSION}
+    volumes:
+      - post_db:/data/db
+    networks:
+      - back_net
+
+  ui:
+    # build: ./ui
+    image: ${USERNAME_AROUND_DOMAIN}/ui:${UI_VERSION}
+    ports:
+      - ${UI_PORT}:9292/tcp
+    networks:
+      - front_net
+    environment:
+      - POST_SERVICE_HOST=post
+      - COMMENT_SERVICE_HOST=comment
+
+  post:
+    # build: ./post-py
+    image: ${USERNAME_AROUND_DOMAIN}/post:${POST_VERSION}
+    networks:
+      - back_net
+      - front_net
+    environment:
+      - POST_DATABASE_HOST=post_db
+      - POST_DATABASE=post
+
+  comment:
+    # build: ./comment
+    image: ${USERNAME_AROUND_DOMAIN}/comment:${COMMENT_VERSION}
+    networks:
+      - back_net
+      - front_net
+    environment:
+      - COMMENT_DATABASE_HOST=post_db
+      - COMMENT_DATABASE=comment
+
+  prometheus:
+    image: ${USERNAME_AROUND_DOMAIN}/prometheus
+    ports:
+      - '9090:9090'
+    volumes:
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention=1d'
+    networks:
+      - back_net
+      - front_net
+
+  node-exporter:
+    image: prom/node-exporter:v0.15.2
+    user: root
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+    networks:
+      - back_net
+
+  mongodb-exporter:
+    image: bitnami/mongodb-exporter:0.32.0
+    ports:
+      - '9216:9216'
+    depends_on:
+      - post_db
+    command: --mongodb.uri=mongodb://post_db:27017
+    networks:
+      - back_net
+
+  blackbox-exporter:
+    image: bitnami/blackbox-exporter:0.24.0
+    ports:
+      - '9115:9115'
+    depends_on:
+      - ui
+      - post
+      - comment
+    networks:
+      - back_net
+
+volumes:
+  post_db:
+  prometheus_data:
+
+networks:
+  back_net:
+  front_net:
