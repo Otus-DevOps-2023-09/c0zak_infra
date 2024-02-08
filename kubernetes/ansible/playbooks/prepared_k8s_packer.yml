@@ -1,0 +1,6 @@
+---
+- name: Prepare with K8S
+  hosts: all
+  become: true
+  roles:
+    - { role: ../roles/k8s }

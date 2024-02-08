@@ -1,0 +1,7 @@
+cloud_id           = "123"
+folder_id          = "123"
+zone               = "ru-central1-a"
+keyfile_path       = "../stubs//key.json"
+service_account_id = "123"
+subnet_id          = "123"
+image_id           = "123"

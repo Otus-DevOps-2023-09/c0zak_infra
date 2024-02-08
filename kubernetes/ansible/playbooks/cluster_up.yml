@@ -1,0 +1,67 @@
+---
+- name: Prepare containerd
+  hosts: all
+  become: true
+  tasks:
+    - name: Wipe containerd config
+      file:
+        path: /etc/containerd/config.toml
+        state: absent
+
+    - name: Restart containerd
+      service:
+        name: containerd
+        state: restarted
+
+
+- name: Init cluster
+  hosts: master
+  become: true
+  tasks:
+    - name: Install kubectl
+      apt:
+        name: kubectl
+        state: present
+
+    - name: Init master
+      command: kubeadm init --pod-network-cidr="10.244.0.0/16"
+      args:
+        creates: /etc/kubernetes/admin.conf
+      register: kubeadm_init
+
+    - name: Create kube directory
+      file:
+        path: "{{ ansible_env.HOME }}/.kube"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0755'
+
+    - name: Set config
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: "{{ ansible_env.HOME }}/.kube/config"
+        remote_src: yes
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0644'
+
+    - name: Install Calico
+      command: kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+
+- name: Join workers
+  hosts: worker
+  become: true
+  tasks:
+
+    - name: Create joiner
+      copy:
+        content: "{{ hostvars['master']['kubeadm_init']['stdout_lines'] | select('match', 'kubeadm join.*') | list | first }} --discovery-token-unsafe-skip-ca-verification"
+        dest: "{{ ansible_env.HOME }}/joiner.sh"
+        mode: '0755'
+
+    - name: Clear joiner
+      command: "sed -i 's/\\\\//g' {{ ansible_env.HOME }}/joiner.sh"
+
+    - name: Join worker
+      command: "bash {{ ansible_env.HOME }}/joiner.sh"
