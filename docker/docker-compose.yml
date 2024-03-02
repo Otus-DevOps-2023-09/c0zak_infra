@@ -9,7 +9,12 @@ services:
 
   ui:
     # build: ./ui
-    image: ${USERNAME_AROUND_DOMAIN}/ui:${UI_VERSION}
+    image: ${USER_NAME}/ui:logging
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: service.ui
     ports:
       - ${UI_PORT}:9292/tcp
     networks:
@@ -17,29 +22,37 @@ services:
     environment:
       - POST_SERVICE_HOST=post
       - COMMENT_SERVICE_HOST=comment
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
 
   post:
     # build: ./post-py
-    image: ${USERNAME_AROUND_DOMAIN}/post:${POST_VERSION}
+    image: ${USER_NAME}/post:logging
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: service.post
     networks:
       - back_net
       - front_net
     environment:
       - POST_DATABASE_HOST=post_db
       - POST_DATABASE=post
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
 
   comment:
     # build: ./comment
-    image: ${USERNAME_AROUND_DOMAIN}/comment:${COMMENT_VERSION}
+    image: ${USER_NAME}/comment:logging
     networks:
       - back_net
       - front_net
     environment:
       - COMMENT_DATABASE_HOST=post_db
       - COMMENT_DATABASE=comment
+      - ZIPKIN_ENABLED=${ZIPKIN_ENABLED}
 
   prometheus:
-    image: ${USERNAME_AROUND_DOMAIN}/prometheus
+    image: ${USER_NAME}/prometheus
     ports:
       - '9090:9090'
     volumes:
