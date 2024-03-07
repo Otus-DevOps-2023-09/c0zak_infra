@@ -1,0 +1,7 @@
+name: reddit
+apiVersion: "v1"
+version: 0.1.0
+description: OTUS sample reddit application
+maintainers:
+  - name: Someone
+    email: my@gmail.com
