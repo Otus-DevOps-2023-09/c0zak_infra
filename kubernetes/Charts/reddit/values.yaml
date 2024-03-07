@@ -1,0 +1,20 @@
+comment:
+  image:
+    repository: ublin/comment
+    tag: logging
+  service:
+    externalPort: 9292
+
+post:
+  image:
+    repository: ublin/post
+    tag: logging
+  service:
+    externalPort: 5000
+
+ui:
+  image:
+    repository: ublin/ui
+    tag: logging
+  service:
+    externalPort: 9292
